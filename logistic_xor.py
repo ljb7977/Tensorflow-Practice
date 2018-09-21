@@ -25,19 +25,15 @@ train = tf.train.GradientDescentOptimizer(learning_rate=0.01).minimize(cost)
 predicted = tf.cast(Y_ > 0.5, dtype=tf.float32)
 accuracy = tf.reduce_mean(tf.cast(tf.equal(predicted, Y), dtype=tf.float32))
 
-print(predicted)
-print(accuracy)
-
 with tf.Session() as sess:
     init = tf.global_variables_initializer()
     sess.run(init)
 
-    for step in range(100000):
+    for step in range(50000):
         cost_val, _ = sess.run([cost, train], feed_dict={X: x_data, Y: y_data})
         if step % 200 == 0:
             print(step, cost_val)
 
-    h, c, a = sess.run([Y_, predicted, accuracy], feed_dict={X: x_data, Y:y_data})
+    h, p, a = sess.run([Y_, predicted, accuracy], feed_dict={X: x_data, Y: y_data})
 
-    print("Hypothesis: ", h, "\nCorrect: ", c, "\nAccuracy: ", a)
-
+    print("Hypothesis: ", h, "\nPredicted: ", p, "\nAccuracy: ", a)
